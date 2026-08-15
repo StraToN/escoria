@@ -2,6 +2,11 @@
 class_name ESCCamera
 extends Camera2D
 
+enum CameraModes {
+	FIXED,
+	FOLLOW
+}
+
 ## Reference to the tween node for animating camera movements.
 var _tween: Tween3:
 	get = get_tween
@@ -9,8 +14,13 @@ var _tween: Tween3:
 ## Target position of the camera.
 var _target: Vector2 = Vector2()
 
+## The previously followed target (saved before shifting and pushing)
+var _previously_followed_target: Node = null
+
 ## The object to follow.
 var _follow_target: Node = null
+
+var mode
 
 ## Target zoom of the camera.
 var _zoom_target: Vector2
@@ -101,6 +111,7 @@ func set_drag_margin_enabled(p_dm_h_enabled, p_dm_v_enabled):
 ## [br]
 ## Returns nothing.
 func set_target(p_target, p_time : float = 0.0):
+	mode = CameraModes.FOLLOW
 	_resolve_target_and_zoom(p_target)
 
 	escoria.logger.info(
@@ -208,6 +219,7 @@ func set_camera_zoom(p_zoom_level: float, p_time: float):
 ## [br]
 ## Returns nothing.
 func push(p_target, p_time: float = 0.0, p_type: int = 0):
+	mode = CameraModes.FIXED
 	_resolve_target_and_zoom(p_target)
 
 	var push_target = null
@@ -278,6 +290,7 @@ func push(p_target, p_time: float = 0.0, p_type: int = 0):
 ## [br]
 ## Returns nothing.
 func shift(p_target: Vector2, p_time: float, p_type: int):
+	mode = CameraModes.FIXED
 	_follow_target = null
 
 	var new_pos = self.global_position + p_target
@@ -481,6 +494,7 @@ func _convert_pos_for_disabled_drag_margin(pos: Vector2) -> Vector2:
 func _resolve_target_and_zoom(p_target) -> void:
 	_target = Vector2()
 	_zoom_target = Vector2()
+	_previously_followed_target = _follow_target
 	_follow_target = null
 
 	if p_target is Node and "is_movable" in p_target and p_target.is_movable:

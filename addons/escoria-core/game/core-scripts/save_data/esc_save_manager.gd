@@ -514,7 +514,11 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 			)
 		else:
 			escoria.main.clear_camera_limit_id_for_room_global_id(_room_id)
-		_camera_set_target.run([0, object_dictionary["target"]])
+			
+		(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera).mode = object_dictionary["mode"]
+		if object_dictionary["mode"] == ESCCamera.CameraModes.FOLLOW:
+			_camera_set_target.run([0, object_dictionary["target"]])
+			
 	else:
 		# Active
 		if object_dictionary.has("active"):

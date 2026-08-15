@@ -9,15 +9,17 @@ size = Vector2i(720, 530)
 script = ExtResource("1_ogeh4")
 
 [node name="FlowContainer" type="VBoxContainer" parent="." unique_id=726240657]
+custom_maximum_size = Vector2(-1, 500)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 712.0
 offset_bottom = 517.0
 
 [node name="Label" type="Label" parent="FlowContainer" unique_id=1668065635]
+custom_maximum_size = Vector2(-1, 500)
 layout_mode = 2
 text = "The version of Godot Engine you appear to be running is older 
-					than the one this version of Escoria relies on (4.7.x) or this is the first time
+				than the one this version of Escoria relies on (4.7.x) or this is the first time
 					you run this version of Escoria.
 
 					Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.

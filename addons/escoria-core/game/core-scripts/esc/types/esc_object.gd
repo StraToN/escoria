@@ -193,7 +193,6 @@ func get_save_data() -> Dictionary:
 	if is_instance_valid(self.node):
 		if self.node is ESCItem:
 			if self.node.animations != null:
-				var a = (self.node as ESCItem).animations
 				save_data["animations_resource_path"] = (self.node as ESCItem).animations.resource_path
 				save_data["current_animation"] = (self.node as ESCItem).get_animation_player().get_current_animation()
 
@@ -205,15 +204,18 @@ func get_save_data() -> Dictionary:
 		if self.node.has_method("get_custom_data"):
 			save_data["custom_data"] = self.node.get_custom_data()
 
-	if self.global_id in ["_music", "_sound", "_ambient"] and self.node.get("state"):
+	if self.global_id in [ESCObjectManager.MUSIC, ESCObjectManager.SOUND, ESCObjectManager.AMBIENT] and self.node.get("state"):
 		save_data["state"] = self.node.get("state")
 		if ESCProjectSettingsManager.get_setting(
 				ESCProjectSettingsManager.SAVE_SOUNDS_PLAYBACK_POSITION
 			):
 			save_data["playback_position"] = self.node.get_playback_position()
 
-	if self.global_id == "_camera":
-		save_data["target"] = self.node.get("_follow_target").global_id
+	if self.global_id == ESCObjectManager.CAMERA:
+		var camera: ESCCamera = self.node as ESCCamera
+		save_data["target"] = camera._follow_target.global_id if camera._follow_target != null \
+			else camera._previously_followed_target
+		save_data["mode"] = self.node.get("mode")
 		var camera_limit_id = escoria.main.get_camera_limit_id_for_room(escoria.main.current_scene)
 		if camera_limit_id != null:
 			save_data["limit_id"] = camera_limit_id
