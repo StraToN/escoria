@@ -8,7 +8,7 @@ signal canceled
 var migrator: Migrator4647
 var required_migration: bool = false
 
-@onready var label: Label = $FlowContainer/Label
+@onready var label: RichTextLabel = $FlowContainer/Label
 @onready var mark_this_as_done: CheckButton = $FlowContainer/mark_this_as_done
 @onready var confirm_button: Button = $FlowContainer/HBoxContainer/confirm
 @onready var cancel_button: Button = $FlowContainer/HBoxContainer/cancel
@@ -20,38 +20,39 @@ func _ready() -> void:
 	match action:
 		Migrator4647.MigrationAction.UPGRADE_4_7:
 			title = "Auto-upgrade Escoria-core scripts for Godot Engine 4.7.x"
-			label.text = \
-"""The version of Godot Engine you appear to be running is newer
-than the one this version of Escoria relies on (4.6.x) or this is the first time
-you run this version of Escoria.\n
-Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-Escoria can now automatically revert its impacted core scripts to makes them compatible
-with Godot Engine 4.7.\n
-Here is the list of the impacted files:
-- res://addons/escoria-core/game/core-scripts/esc_item.gd\n
+			label.text = "The version of Godot Engine you appear to be running is newer than the \
+one this version of Escoria relies on (4.6.x) or this is the first time you run this \
+version of Escoria.\n
+Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use \
+of. Escoria can now automatically revert its impacted core scripts to make them \
+compatible with Godot Engine 4.7.\n
+Here is the list of the impacted files:\n
+[ul]res://addons/escoria-core/game/core-scripts/esc_item.gd[/ul]\n
 ⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
-If you wish to let Escoria proceed, choose 'OK'.
-If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
-If you have edited these files for your own needs, you'll need to manually fix them:
-choose 'Cancel' (see README; existing files will be backuped anyway)."""
+If you wish to let Escoria proceed, choose 'OK' (a backup of the existing file will be \
+created).\n
+If you wish to upgrade to a newer version of Godot, choose 'Cancel' (nothing will be \
+done, but this tool will happen next time you open the editor).\n
+If you have edited these files for your own needs, you'll need to manually fix them: \
+choose 'Cancel' (see README; existing files will be backuped anyway)."
 			required_migration = true
 		Migrator4647.MigrationAction.DOWNGRADE_4_6:
 			title = "Auto-downgrade Escoria-core scripts for Godot Engine 4.6.x"
-			label.text = \
-"""The version of Godot Engine you appear to be running is older
-than the one this version of Escoria relies on (4.7.x) or this is the first time
+			label.text = "The version of Godot Engine you appear to be running is older \
+than the one this version of Escoria relies on (4.7.x) or this is the first time \
 you run this version of Escoria.\n
-Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-Escoria can now automatically revert its impacted core scripts to makes them compatible
-with Godot Engine 4.6.\n
-Here is the list of the impacted files:
-- res://addons/escoria-core/game/core-scripts/esc_item.gd\n
+Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes \
+use of. Escoria can now automatically revert its impacted core scripts to make them \
+compatible with Godot Engine 4.6.\n
+Here is the list of the impacted files:\n
+[ul]res://addons/escoria-core/game/core-scripts/esc_item.gd[/ul]\n
 ⚠️IMPORTANT⚠️: the editor will restart after this action is done.\n
-If you wish to let Escoria proceed, choose 'OK' (a backup of the existing file will be created).
-If you wish to upgrade to a newer version of Godot, choose 'Cancel' (nothing will be done,
-but this tool will happen next time you open the editor).
-If you have edited these files for your own needs, you'll need to manually fix them:
-choose 'Cancel' (see README; existing files will be backuped anyway)."""
+If you wish to let Escoria proceed, choose 'OK' (a backup of the existing file will be \
+created).\n
+If you wish to upgrade to a newer version of Godot, choose 'Cancel' (nothing will be \
+done, but this tool will happen next time you open the editor).\n
+If you have edited these files for your own needs, you'll need to manually fix them: \
+choose 'Cancel' (see README; existing files will be backuped anyway)."
 			required_migration = true
 
 		_:

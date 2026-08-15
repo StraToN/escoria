@@ -4,38 +4,42 @@
 
 [node name="AcceptDialogMigrate4647" type="Window" unique_id=1453257784]
 oversampling_override = 1.0
+title = "Auto-upgrade Escoria-core scripts for Godot Engine 4.7.x"
 position = Vector2i(0, 36)
-size = Vector2i(720, 530)
+size = Vector2i(720, 420)
+popup_window = true
+minimize_disabled = true
+maximize_disabled = true
+min_size = Vector2i(720, 420)
+max_size = Vector2i(16384, 600)
 script = ExtResource("1_ogeh4")
 
 [node name="FlowContainer" type="VBoxContainer" parent="." unique_id=726240657]
-custom_maximum_size = Vector2(-1, 500)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 712.0
 offset_bottom = 517.0
 
-[node name="Label" type="Label" parent="FlowContainer" unique_id=1668065635]
-custom_maximum_size = Vector2(-1, 500)
+[node name="Label" type="RichTextLabel" parent="FlowContainer" unique_id=1303284137]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-text = "The version of Godot Engine you appear to be running is older 
-				than the one this version of Escoria relies on (4.7.x) or this is the first time
-					you run this version of Escoria.
+bbcode_enabled = true
+text = "The version of Godot Engine you appear to be running is newer than the one this version of Escoria relies on (4.6.x) or this is the first time you run this version of Escoria.
 
-					Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of.
-					Escoria can now automatically revert its impacted core scripts to makes them compatible
-					with Godot Engine 4.6.
+Godot Engine 4.6 and 4.7 APIs have some differences in methods that Escoria makes use of. Escoria can now automatically revert its impacted core scripts to make them compatible with Godot Engine 4.7.
 
-					Here is the list of the impacted files:
-					- res://addons/escoria-core/game/core-scripts/esc_item.gd
+Here is the list of the impacted files:
 
-					⚠️IMPORTANT⚠️: the editor will restart after this action is done.
+[ul]res://addons/escoria-core/game/core-scripts/esc_item.gd[/ul]
 
-					If you wish to let Escoria proceed, choose 'OK'.
-					If you wish to upgrade to a newer version of Godot, choose 'Cancel'.
-					If you have edited these files for your own needs, you'll need to manually fix them:
-					choose 'Cancel' (see README; existing files will be backuped anyway)."
-autowrap_mode = 3
+⚠️IMPORTANT⚠️: the editor will restart after this action is done.
+
+If you wish to let Escoria proceed, choose 'OK' (a backup of the existing file will be created).
+
+If you wish to upgrade to a newer version of Godot, choose 'Cancel' (nothing will be done, but this tool will happen next time you open the editor).
+
+If you have edited these files for your own needs, you'll need to manually fix them: choose 'Cancel' (see README; existing files will be backuped anyway)."
+fit_content = true
 
 [node name="mark_this_as_done" type="CheckButton" parent="FlowContainer" unique_id=99402283]
 layout_mode = 2

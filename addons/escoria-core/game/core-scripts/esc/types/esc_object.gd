@@ -213,9 +213,16 @@ func get_save_data() -> Dictionary:
 
 	if self.global_id == ESCObjectManager.CAMERA:
 		var camera: ESCCamera = self.node as ESCCamera
-		save_data["target"] = camera._follow_target.global_id if camera._follow_target != null \
-			else camera._previously_followed_target
+		
 		save_data["mode"] = self.node.get("mode")
+		match self.node.get("mode"):
+			ESCCamera.CameraModes.FIXED:
+				save_data["target"] = self.node._target
+			ESCCamera.CameraModes.FOLLOW:
+				save_data["target"] = camera._follow_target.global_id if camera._follow_target != null \
+				else camera._previously_followed_target.global_id
+		
+		
 		var camera_limit_id = escoria.main.get_camera_limit_id_for_room(escoria.main.current_scene)
 		if camera_limit_id != null:
 			save_data["limit_id"] = camera_limit_id

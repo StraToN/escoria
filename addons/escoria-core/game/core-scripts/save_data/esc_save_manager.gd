@@ -47,8 +47,10 @@ var is_loading_game: bool
 var _add_inventory: InventoryAddCommand
 var _transition: TransitionCommand
 var _hide_menu: HideMenuCommand
+var _camera_push: CameraPushCommand
 var _camera_set_target: CameraSetTargetCommand
 var _camera_set_limits: CameraSetLimitsCommand
+var _camera_shift: CameraShiftCommand
 var _change_scene: ChangeSceneCommand
 var _enable_terrain: EnableTerrainCommand
 var _set_active: SetActiveCommand
@@ -83,8 +85,10 @@ func _init():
 	_add_inventory = InventoryAddCommand.new()
 	_transition = TransitionCommand.new()
 	_hide_menu = HideMenuCommand.new()
+	_camera_push = CameraPushCommand.new()
 	_camera_set_target = CameraSetTargetCommand.new()
 	_camera_set_limits = CameraSetLimitsCommand.new()
+	_camera_shift = CameraShiftCommand.new()
 	_change_scene = ChangeSceneCommand.new()
 	_enable_terrain = EnableTerrainCommand.new()
 	_set_active = SetActiveCommand.new()
@@ -515,9 +519,15 @@ func _load_object(object_id: String, object_dictionary: Dictionary, _room_id: St
 		else:
 			escoria.main.clear_camera_limit_id_for_room_global_id(_room_id)
 			
-		(escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera).mode = object_dictionary["mode"]
-		if object_dictionary["mode"] == ESCCamera.CameraModes.FOLLOW:
-			_camera_set_target.run([0, object_dictionary["target"]])
+		var camera = (escoria.object_manager.get_object(escoria.object_manager.CAMERA).node as ESCCamera)
+		camera.mode = object_dictionary["mode"]
+		match object_dictionary["mode"]:
+			ESCCamera.CameraModes.FIXED:
+				var dx = object_dictionary["target"].x - camera.position.x
+				var dy = object_dictionary["target"].y - camera.position.y
+				_camera_shift.run([dx, dy, 0, "LINEAR"])
+			ESCCamera.CameraModes.FOLLOW:
+				_camera_set_target.run([0, object_dictionary["target"]])
 			
 	else:
 		# Active
