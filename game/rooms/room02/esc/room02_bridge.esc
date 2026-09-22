@@ -2,6 +2,7 @@
 
 :setup
 	global r2_bridge_closed = false
+	play_snd("res://game/sfx/Mystical-Ocean-Puzzle-Game.mp3", _music)
 
 	if r2_bridge_closed:
 		# Make set_state IMMEDIATE to reach the final frame immediately
@@ -33,4 +34,3 @@
 #set_global bridge_closed true
 #set_interactive r2_right_platform false
 ## /DEBUG
-

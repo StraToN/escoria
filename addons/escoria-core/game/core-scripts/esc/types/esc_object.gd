@@ -183,7 +183,7 @@ func _set_interactive(value: bool):
 func get_save_data() -> Dictionary:
 	var save_data: Dictionary = {}
 
-	if self.node is ESCPlayer and not is_instance_valid(self.node):
+	if self.node == null or (self.node is ESCPlayer and not is_instance_valid(self.node)):
 		return save_data
 
 	save_data["active"] = self.active
